@@ -430,5 +430,40 @@
 ;; <=
 
 ;; @@
+(defn flush?
+  [hand]
+  (let [suits (map :A suits&ranks)]
+    (some true?
+          (map #(= (count-color hand %) 5) suits))))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;probability/flush?</span>","value":"#'probability/flush?"}
+;; <=
+
+;; @@
+(P flush? @hands)
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-ratio'>33/16660</span>","value":"33/16660"}
+;; <=
+
+;; @@
+(defn four-kind?
+  [hand]
+  (some true?
+        (map #(= (count-color hand %) 4) ranks)))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;probability/four-kind?</span>","value":"#'probability/four-kind?"}
+;; <=
+
+;; @@
+(P four-kind? @hands)
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-ratio'>1/4165</span>","value":"1/4165"}
+;; <=
+
+;; @@
 
 ;; @@
