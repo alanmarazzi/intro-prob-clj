@@ -138,15 +138,15 @@
 ;; @@
 ;; ->
 ;;; (&quot;W3 W7 W6 W1 W8 W5&quot;
-;;;  &quot;W3 W7 W6 W1 W8 W2&quot;
-;;;  &quot;W3 W7 W6 W1 W8 B6&quot;
-;;;  &quot;W3 W7 W6 W1 W8 B1&quot;
-;;;  &quot;W3 W7 W6 W1 W8 B3&quot;
-;;;  &quot;W3 W7 W6 W1 W8 B4&quot;
-;;;  &quot;W3 W7 W6 W1 W8 B2&quot;
-;;;  &quot;W3 W7 W6 W1 W8 R8&quot;
-;;;  &quot;W3 W7 W6 W1 W8 R2&quot;
-;;;  &quot;W3 W7 W6 W1 W8 R1&quot;)
+;;;  &quot;W3 W7 W6 W1 W8 B5&quot;
+;;;  &quot;W3 W7 W6 W1 W8 R3&quot;
+;;;  &quot;W3 W7 W6 W1 W8 R6&quot;
+;;;  &quot;W3 W7 W6 W1 W8 R5&quot;
+;;;  &quot;W3 W7 W6 W1 W5 W4&quot;
+;;;  &quot;W3 W7 W6 W1 W5 B6&quot;
+;;;  &quot;W3 W7 W6 W1 W5 B5&quot;
+;;;  &quot;W3 W7 W6 W1 W5 B1&quot;
+;;;  &quot;W3 W7 W6 W1 W5 B3&quot;)
 ;;; 
 ;; <-
 ;; =>
@@ -413,16 +413,16 @@
 (clojure.pprint/pprint (take 10 (random-sample 0.5 @hands)))
 ;; @@
 ;; ->
-;;; (&quot;S9 S6 S2 S5 SA&quot;
-;;;  &quot;S9 S6 S2 S5 SQ&quot;
-;;;  &quot;S9 S6 S2 S5 ST&quot;
-;;;  &quot;S9 S6 S2 S5 SK&quot;
-;;;  &quot;S9 S6 S2 S5 S4&quot;
-;;;  &quot;S9 S6 S2 S5 H3&quot;
-;;;  &quot;S9 S6 S2 S5 HQ&quot;
+;;; (&quot;S9 S6 S2 S5 S4&quot;
+;;;  &quot;S9 S6 S2 S5 S7&quot;
+;;;  &quot;S9 S6 S2 S5 H9&quot;
+;;;  &quot;S9 S6 S2 S5 H6&quot;
 ;;;  &quot;S9 S6 S2 S5 HJ&quot;
 ;;;  &quot;S9 S6 S2 S5 H8&quot;
-;;;  &quot;S9 S6 S2 S5 H4&quot;)
+;;;  &quot;S9 S6 S2 S5 H2&quot;
+;;;  &quot;S9 S6 S2 S5 HK&quot;
+;;;  &quot;S9 S6 S2 S5 H7&quot;
+;;;  &quot;S9 S6 S2 S5 D9&quot;)
 ;;; 
 ;; <-
 ;; =>
@@ -462,6 +462,48 @@
 ;; @@
 ;; =>
 ;;; {"type":"html","content":"<span class='clj-ratio'>1/4165</span>","value":"1/4165"}
+;; <=
+
+;; **
+;;; ## Gambling, Triangles and the birth of Probability
+;; **
+
+;; @@
+(defn continuations
+  [H T]
+  (let [rounds (map #(clojure.string/split % #"") (repeat (- (+ H T) 1) "ht"))]
+    (apply combinatorics/cartesian-product rounds)))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;probability/continuations</span>","value":"#'probability/continuations"}
+;; <=
+
+;; @@
+(defn win-probability
+  [H T]
+  (let [hwins (fn [out]
+                (>= (count
+                      (keep
+                        #(= "h" %) out)) H))]
+    (println (hwins '("h" "h" "h" "h")))
+  (P hwins (continuations H T))))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;probability/win-probability</span>","value":"#'probability/win-probability"}
+;; <=
+
+;; @@
+(continuations 2 3)
+;; @@
+;; =>
+;;; {"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"h\" \"h\" \"h\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"h\" \"h\" \"h\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"h\" \"h\" \"t\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"h\" \"h\" \"t\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"h\" \"t\" \"h\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"h\" \"t\" \"h\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"h\" \"t\" \"t\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"h\" \"t\" \"t\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"t\" \"h\" \"h\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"t\" \"h\" \"h\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"t\" \"h\" \"t\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"t\" \"h\" \"t\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"t\" \"t\" \"h\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"t\" \"t\" \"h\" \"t\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;h&quot;</span>","value":"\"h\""}],"value":"(\"t\" \"t\" \"t\" \"h\")"},{"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""},{"type":"html","content":"<span class='clj-string'>&quot;t&quot;</span>","value":"\"t\""}],"value":"(\"t\" \"t\" \"t\" \"t\")"}],"value":"((\"h\" \"h\" \"h\" \"h\") (\"h\" \"h\" \"h\" \"t\") (\"h\" \"h\" \"t\" \"h\") (\"h\" \"h\" \"t\" \"t\") (\"h\" \"t\" \"h\" \"h\") (\"h\" \"t\" \"h\" \"t\") (\"h\" \"t\" \"t\" \"h\") (\"h\" \"t\" \"t\" \"t\") (\"t\" \"h\" \"h\" \"h\") (\"t\" \"h\" \"h\" \"t\") (\"t\" \"h\" \"t\" \"h\") (\"t\" \"h\" \"t\" \"t\") (\"t\" \"t\" \"h\" \"h\") (\"t\" \"t\" \"h\" \"t\") (\"t\" \"t\" \"t\" \"h\") (\"t\" \"t\" \"t\" \"t\"))"}
+;; <=
+
+;; @@
+
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-long'>1</span>","value":"1"}
 ;; <=
 
 ;; @@
